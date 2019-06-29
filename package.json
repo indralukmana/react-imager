@@ -5,9 +5,9 @@
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.0.10",
-    "@types/react": "16.8.22",
-    "@types/react-dom": "16.8.4",
+    "cropperjs": "^1.5.1",
     "react": "^16.8.6",
+    "react-avatar-editor": "^11.0.7",
     "react-cropper": "^1.2.0",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.1",
@@ -36,15 +36,19 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
-    "prettier": "^1.18.2",
-    "@typescript-eslint/parser": "^1.11.0",
+    "@types/react": "^16.8.22",
+    "@types/react-cropper": "^0.10.6",
+    "@types/react-dom": "^16.8.4",
+    "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "@typescript-eslint/parser": "^1.11.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-prettier": "^3.1.0"
+    "prettier": "^1.18.2"
   }
 }
