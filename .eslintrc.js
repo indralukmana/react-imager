@@ -8,6 +8,7 @@ module.exports = {
     'airbnb',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:import/typescript',
     'prettier',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
@@ -24,7 +25,9 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
-  rules: {},
+  rules: {
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", '.tsx'] }],
+  },
   settings: {
     react: {
       version: 'detect',
