@@ -2,21 +2,11 @@ import React from 'react';
 import './App.css';
 import sampleImage from './sample.jpg';
 
-interface Props {
-  [n: string]: never;
-}
-
-const App: React.FunctionComponent<
-  Props
-> = (): JSX.Element => (
-  <div className="app">
-    <header className="app-header">React Imager</header>
-
-    <img
-      src={sampleImage}
-      alt="sample"
-      style={{ width: '50%' }}
-    />
+const App = (): JSX.Element => {
+  return (
+    <div className="app">
+      <header className="app-header">React Imager</header>
+      <div className="image-container">
 
     <div className="btn-groups-manipulate">
       <button type="button">Rotate Left</button>
