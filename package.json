@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.8.22",
+    "@types/react-avatar-editor": "^10.3.4",
     "@types/react-cropper": "^0.10.6",
     "@types/react-dom": "^16.8.4",
     "@types/redux": "^3.6.0",

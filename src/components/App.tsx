@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 import AvatarEditor from 'react-avatar-editor';
 import sampleImage from './sample.jpg';
@@ -6,6 +6,7 @@ import sampleImage from './sample.jpg';
 const App = (): JSX.Element => {
   const [rotation, setRotation] = useState<number>(0);
   const [scale, setScale] = useState<number>(1);
+  const imageResult = useRef<AvatarEditor>(null);
 
   const rotate = (degree: number) => {
     if (rotation > -360 && rotation < 360) {
@@ -21,11 +22,29 @@ const App = (): JSX.Element => {
     }
   };
 
+  const process = () => {
+    if (imageResult.current) {
+      const imageCanvas = imageResult.current.getImageScaledToCanvas();
+      const dataURL = imageCanvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = 'filename.png';
+      link.href = dataURL;
+      document.body.appendChild(link);
+      link.click();
+      console.log(link);
+    }
+  };
+
   return (
     <div className="app">
       <header className="app-header">React Imager</header>
       <div className="image-container">
-        <AvatarEditor image={sampleImage} rotate={rotation} scale={scale} />
+        <AvatarEditor
+          ref={imageResult}
+          image={sampleImage}
+          rotate={rotation}
+          scale={scale}
+        />
       </div>
 
       <div className="btn-groups-manipulate">
@@ -43,7 +62,9 @@ const App = (): JSX.Element => {
         </button>
       </div>
 
-      <button type="button">Finish</button>
+      <button type="button" onClick={process}>
+        Finish
+      </button>
     </div>
   );
 };
