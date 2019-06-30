@@ -1,10 +1,13 @@
 import React, { useState, useRef } from 'react';
 import AvatarEditor from 'react-avatar-editor';
+import { Redirect } from 'react-router-dom';
 import sampleImage from './sample.jpg';
 
 const Editor = (): JSX.Element => {
   const [rotation, setRotation] = useState<number>(0);
   const [scale, setScale] = useState<number>(1);
+  const [finish, setFinish] = useState<boolean>(false);
+  const [dataURL, setDataURL] = useState<string>('');
   const imageResult = useRef<AvatarEditor>(null);
 
   const rotate = (degree: number) => {
@@ -24,15 +27,21 @@ const Editor = (): JSX.Element => {
   const process = () => {
     if (imageResult.current) {
       const imageCanvas = imageResult.current.getImageScaledToCanvas();
-      const dataURL = imageCanvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = 'filename.png';
-      link.href = dataURL;
-      document.body.appendChild(link);
-      link.click();
-      console.log(link);
+      // const dataURL = imagecanvas.todataurl('image/png');
+      // const link = document.createElement('a');
+      // link.download = 'filename.png';
+      // link.href = dataURL;
+      // document.body.appendChild(link);
+      // link.click();
+      setDataURL(imageCanvas.toDataURL('image/png'));
+      setFinish(true);
+      console.log(dataURL);
     }
   };
+
+  if (finish) {
+    return <Redirect to={{ pathname: '/result/', state: { dataURL } }} />;
+  }
 
   return (
     <>
