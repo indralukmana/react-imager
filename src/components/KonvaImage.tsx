@@ -36,13 +36,8 @@ const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
 
   const handleDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
     e.target.to({
-<<<<<<< HEAD
       scaleX: scale,
       scaleY: scale,
-=======
-      scaleX: 1,
-      scaleY: 1,
->>>>>>> 507f99d18cdd5badf6e2771356b24ac1e7bb5ea4
       shadowOffsetX: 5,
       shadowOffsetY: 5,
     });
