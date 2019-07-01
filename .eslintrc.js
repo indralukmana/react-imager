@@ -23,14 +23,20 @@ module.exports = {
     },
     ecmaVersion: 2018,
     sourceType: 'module',
-    project: './tsconfig.json'
+    project: './tsconfig.json',
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", '.tsx'] }],
-      'no-console': 'off',
-      "@typescript-eslint/explicit-member-accessibility": "off",
-      "@typescript-eslint/explicit-function-return-type": "off"
+    'react/jsx-filename-extension': [
+      1,
+      { extensions: ['.js', '.jsx', '.tsx'] },
+    ],
+    'no-console': 'off',
+    '@typescript-eslint/explicit-member-accessibility':
+      'off',
+    '@typescript-eslint/explicit-function-return-type':
+      'off',
+    'react/prop-types': [0], //Ignore prop types already use typescript
   },
   settings: {
     react: {
