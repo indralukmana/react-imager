@@ -14,7 +14,8 @@
     "react-konva": "^16.8.7-3",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
-    "typescript": "3.5.2"
+    "typescript": "3.5.2",
+    "use-image": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
