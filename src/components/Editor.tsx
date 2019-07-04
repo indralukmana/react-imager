@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Stage } from 'react-konva';
+import { connect } from 'react-redux';
 import KonvaImage from './KonvaImage';
+import { doRotate, doScale, doSetImage } from '../redux/actions';
 
-const Editor = (): JSX.Element => {
-  const [rotation, setRotation] = useState<number>(0);
-  const [scale, setScale] = useState<number>(1);
+const Editor = (props): JSX.Element => {
+  // const [rotation, setRotation] = useState<number>(0);
+  // const [scale, setScale] = useState<number>(1);
   const [finish, setFinish] = useState<boolean>(false);
   const [dataURL, setDataURL] = useState<string>('');
   const [container, setContainer] = useState<Stage | null>(null);
 
+  const { rotation, scale } = props;
+
   const rotate = (degree: number) => {
     if (rotation > -360 && rotation < 360) {
-      setRotation(rotation + degree);
+      // setRotation(rotation + degree);
+
+      // dispatch({
+      //   type: 'ROTATE',
+      //   payload: rotation + degree,
+      // });
+      props.onSetRotation(rotation + degree);
     } else {
-      setRotation(degree);
+      // setRotation(degree);
+      // dispatch(degree);
+      props.onSetRotation(degree);
     }
   };
 
   const zoom = (scaleChange: number) => {
     if (scale + scaleChange > 0) {
-      setScale(scale + scaleChange);
+      // dispatch({
+      //   type: 'SCALE',
+      //   payload: scale + scaleChange,
+      // });
+      props.onSetScale(scale + scaleChange);
     }
   };
 
@@ -35,6 +51,21 @@ const Editor = (): JSX.Element => {
     }
   };
 
+  const handleFileLoad = event => {
+    console.log(event.target.files[0]);
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      // dispatch({
+      //   type: 'SET_IMAGE',
+      //   payload: reader.result,
+      // });
+      props.onSetImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   if (finish) {
     return <Redirect to={{ pathname: '/result/', state: { dataURL } }} />;
   }
@@ -47,6 +78,7 @@ const Editor = (): JSX.Element => {
           canvasWidth={600}
           rotationDegree={rotation}
           scale={scale}
+          // image={image}
         />
       </div>
 
@@ -64,7 +96,7 @@ const Editor = (): JSX.Element => {
           Zoom Out
         </button>
       </div>
-
+      <input type="file" onChange={handleFileLoad} />
       <button type="button" onClick={process}>
         Finish
       </button>
@@ -72,4 +104,18 @@ const Editor = (): JSX.Element => {
   );
 };
 
-export default Editor;
+const mapStateToProps = state => ({
+  rotation: state.rotation,
+  scale: state.scale,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetRotation: rotation => dispatch(doRotate(rotation)),
+  onSetScale: scale => dispatch(doScale(scale)),
+  onSetImage: image => dispatch(doSetImage(image)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Editor);

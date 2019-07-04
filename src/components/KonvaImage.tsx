@@ -3,21 +3,31 @@ import { Stage, Layer, Transformer, Image } from 'react-konva';
 import useImage from 'use-image';
 import { Transformer as TransformerType } from 'konva/types/shapes/Transformer';
 import Konva from 'konva';
-import sampleImage from './sample.jpg';
+import { connect } from 'react-redux';
+import { doSetPosition } from '../redux/actions';
+// import sampleImage from './sample.jpg';
 
 interface KonvaImageProps {
   setContainer?;
   canvasWidth: number;
   rotationDegree: number;
   scale: number;
+  sampleImage?;
+  position?;
+  onSetPosition?;
 }
 
-const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
-  setContainer = null,
-  canvasWidth = 300, // We only need the canvas width, the height will be calculated
-  rotationDegree = 0,
-  scale = 1,
-}) => {
+const KonvaImage: React.FunctionComponent<KonvaImageProps> = props => {
+  const {
+    setContainer = null,
+    canvasWidth = 300, // We only need the canvas width, the height will be calculated
+    rotationDegree = 0,
+    scale = 1,
+    position,
+    sampleImage,
+    onSetPosition,
+  } = props;
+
   const [image, status] = useImage(sampleImage);
   const [imageSize, setImageSize] = useState({
     imageHeight: 0,
@@ -29,10 +39,10 @@ const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
   const transformRef = useRef<TransformerType>(null);
 
   // x and y for the image
-  const [position, setPosition] = useState({
-    x: 600,
-    y: 300,
-  });
+  // const [position, setPosition] = useState({
+  //   x: 600,
+  //   y: 300,
+  // });
 
   const handleDragEnd = (e: Konva.KonvaEventObject<DragEvent>) => {
     e.target.to({
@@ -41,13 +51,21 @@ const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
       shadowOffsetX: 5,
       shadowOffsetY: 5,
     });
+    // dispatch({
+    //   type: 'SET_POSITION',
+    //   payload: { x: e.target.attrs.x, y: e.target.attrs.y },
+    // });
+    onSetPosition({
+      x: e.target.attrs.x,
+      y: e.target.attrs.y,
+    });
   };
 
   // This will set the x and y for the image it is used for
   // draggable setting https://github.com/konvajs/react-konva/issues/256
-  useEffect(() => {
-    setPosition({ x: width, y: height });
-  }, [width, height]);
+  // useEffect(() => {
+  //   setPosition({ x: width, y: height });
+  // }, [width, height]);
 
   /*
   This hook is for handling the image loading. When the image
@@ -86,7 +104,23 @@ const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
         ((imageHeight / imageWidth) * canvasWidth) / 2,
     );
     setWidth(canvasWidth - canvasWidth / 2);
-  }, [imageSize, canvasWidth]);
+
+    // dispatch({
+    //   type: 'SET_POSITION',
+    //   payload: {
+    //     y:
+    //       (imageHeight / imageWidth) * canvasWidth -
+    //       ((imageHeight / imageWidth) * canvasWidth) / 2,
+    //     x: canvasWidth - canvasWidth / 2,
+    //   },
+    // });
+    onSetPosition({
+      y:
+        (imageHeight / imageWidth) * canvasWidth -
+        ((imageHeight / imageWidth) * canvasWidth) / 2,
+      x: canvasWidth - canvasWidth / 2,
+    });
+  }, [imageSize, canvasWidth, onSetPosition]);
 
   /*
     This hook will set the container on parent with image ref from Konva.
@@ -138,4 +172,16 @@ const KonvaImage: React.FunctionComponent<KonvaImageProps> = ({
   );
 };
 
-export default KonvaImage;
+const mapStateToProps = state => ({
+  position: state.position,
+  sampleImage: state.image,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onSetPosition: position => dispatch(doSetPosition(position)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(KonvaImage);
