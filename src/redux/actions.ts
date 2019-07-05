@@ -8,9 +8,9 @@ const doScale = scale => ({
   payload: scale,
 });
 
-const doSetImage = image => ({
+const doSetImage = imageData => ({
   type: 'SET_IMAGE',
-  payload: image,
+  payload: imageData,
 });
 
 const doSetPosition = position => ({
@@ -18,4 +18,9 @@ const doSetPosition = position => ({
   payload: position,
 });
 
-export { doRotate, doScale, doSetImage, doSetPosition };
+const doUploadImage = imageData => ({
+  type: 'UPLOAD_IMAGE',
+  payload: imageData,
+});
+
+export { doRotate, doScale, doSetImage, doSetPosition, doUploadImage };

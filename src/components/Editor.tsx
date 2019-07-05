@@ -9,8 +9,9 @@ const Editor = (props): JSX.Element => {
   // const [rotation, setRotation] = useState<number>(0);
   // const [scale, setScale] = useState<number>(1);
   const [finish, setFinish] = useState<boolean>(false);
-  const [dataURL, setDataURL] = useState<string>('');
+  // const [dataURL, setDataURL] = useState<string>('');
   const [container, setContainer] = useState<Stage | null>(null);
+  const [imageName, setImageName] = useState<string>('');
 
   const { rotation, scale } = props;
 
@@ -45,7 +46,14 @@ const Editor = (props): JSX.Element => {
       const imageCanvas = container
         .getStage()
         .toDataURL({ mimeType: 'image/png' });
-      setDataURL(imageCanvas);
+
+      const imageData = {
+        imageName,
+        image: imageCanvas,
+      };
+
+      props.onSetImage(imageData);
+
       setFinish(true);
       console.log(container);
     }
@@ -61,13 +69,19 @@ const Editor = (props): JSX.Element => {
       //   type: 'SET_IMAGE',
       //   payload: reader.result,
       // });
-      props.onSetImage(reader.result);
+      const imageData = {
+        image: reader.result,
+        imageName: file.name,
+      };
+      setImageName(imageData.imageName);
+      // props.onSetImage(reader.result);
+      props.onSetImage(imageData);
     };
     reader.readAsDataURL(file);
   };
 
   if (finish) {
-    return <Redirect to={{ pathname: '/result/', state: { dataURL } }} />;
+    return <Redirect to={{ pathname: '/result/' }} />;
   }
 
   return (

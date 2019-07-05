@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import watchAll from './sagas/image';
 
 const initialState = {
   image: null,
+  imageName: '',
   rotation: 0,
   scale: 1,
   position: { x: 0, y: 0 },
@@ -33,14 +36,17 @@ const reducer = (state = initialState, action) => {
     case 'SET_IMAGE':
       return {
         ...state,
-        image: action.payload,
+        image: action.payload.image,
+        imageName: action.payload.imageName,
       };
     default:
       return state;
   }
 };
 
-const store = createStore(reducer);
+const saga = createSagaMiddleware();
+const store = createStore(reducer, undefined, applyMiddleware(saga));
+saga.run(watchAll);
 
 ReactDOM.render(
   <Provider store={store}>
