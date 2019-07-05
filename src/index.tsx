@@ -3,8 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import { PersistGate } from 'redux-persist/integration/react';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import watchAll from './sagas/image';
@@ -44,15 +47,26 @@ const reducer = (state = initialState, action) => {
   }
 };
 
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducer);
+
 const saga = createSagaMiddleware();
-const store = createStore(reducer, undefined, applyMiddleware(saga));
+// const store = createStore(reducer, undefined, applyMiddleware(saga));
+const store = createStore(persistedReducer, undefined, applyMiddleware(saga));
+const persistor = persistStore(store);
 saga.run(watchAll);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <PersistGate loading={null} persistor={persistor}>
+      <Router>
+        <App />
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById('root'),
 );
