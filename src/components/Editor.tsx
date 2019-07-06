@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Stage } from 'react-konva';
 import { connect } from 'react-redux';
+import { Button, ButtonGroup, Input } from 'reactstrap';
 import KonvaImage from './KonvaImage';
 import { doRotate, doScale, doSetImage } from '../redux/actions';
 
@@ -80,40 +81,61 @@ const Editor = (props): JSX.Element => {
     reader.readAsDataURL(file);
   };
 
+  const reset = () => {
+    props.onSetImage({ imageName: '', image: null });
+    setImageName('');
+    props.onSetScale(1);
+    props.onSetRotation(0);
+  };
+
   if (finish) {
     return <Redirect to={{ pathname: '/result/' }} />;
   }
 
   return (
     <>
-      <div className="image-container">
-        <KonvaImage
-          setContainer={setContainer}
-          canvasWidth={600}
-          rotationDegree={rotation}
-          scale={scale}
-          // image={image}
-        />
+      {/* <div className="image-container"> */}
+      <div
+        style={{
+          width: 600,
+          height: 'auto',
+          // border: '1px solid gray',
+        }}
+      >
+        {!imageName && <Input type="file" onChange={handleFileLoad} />}
+        {imageName && (
+          <KonvaImage
+            setContainer={setContainer}
+            canvasWidth={600}
+            rotationDegree={rotation}
+            scale={scale}
+            // image={image}
+          />
+        )}
       </div>
 
-      <div className="btn-groups-manipulate">
-        <button type="button" onClick={() => rotate(-10)}>
+      <ButtonGroup>
+        <Button color="secondary" type="button" onClick={() => rotate(-10)}>
           Rotate Left
-        </button>
-        <button type="button" onClick={() => rotate(10)}>
+        </Button>
+        <Button color="secondary" type="button" onClick={() => rotate(10)}>
           Rotate Right
-        </button>
-        <button type="button" onClick={() => zoom(0.1)}>
+        </Button>
+        <Button color="secondary" type="button" onClick={() => zoom(0.1)}>
           Zoom In
-        </button>
-        <button type="button" onClick={() => zoom(-0.1)}>
+        </Button>
+        <Button color="secondary" type="button" onClick={() => zoom(-0.1)}>
           Zoom Out
-        </button>
-      </div>
-      <input type="file" onChange={handleFileLoad} />
-      <button type="button" onClick={process}>
+        </Button>
+{' '}
+        <Button color="warning" type="button" onClick={reset}>
+          Reset
+        </Button>
+      </ButtonGroup>
+
+      <Button color="primary" type="button" onClick={process}>
         Finish
-      </button>
+      </Button>
     </>
   );
 };

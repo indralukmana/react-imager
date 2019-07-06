@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
+import { Button, Container, Row, Col } from 'reactstrap';
 import { doUploadImage } from '../redux/actions';
 
 const Result = (props): JSX.Element => {
@@ -35,12 +36,30 @@ const Result = (props): JSX.Element => {
   return (
     <>
       <img src={image} alt="edit result" />
-      <button type="button" onClick={download}>
-        Download
-      </button>
-      <button type="button" onClick={upload}>
-        Upload
-      </button>
+      <Container>
+        <Row style={{ justifyContent: 'center' }}>
+          <Col
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Button type="button" onClick={download}>
+              Download
+            </Button>
+          </Col>
+          <Col
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
+          >
+            <Button type="button" onClick={upload}>
+              Upload
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

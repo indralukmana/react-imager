@@ -20,11 +20,3 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
 }
-
-.btn-groups-manipulate {
-  display: flex;
-}
-
-button {
-  margin: 0 10px;
-}
