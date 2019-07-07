@@ -1,5 +1,5 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { Button, Container, Row, Col } from 'reactstrap';
@@ -9,6 +9,8 @@ const Result = (props): JSX.Element => {
   const { state, onUpload } = props;
 
   const { image, imageName, rotation, scale, position } = state;
+
+  const [uploaded, setUploaded] = useState<boolean>(false);
 
   const download = () => {
     const link = document.createElement('a');
@@ -31,7 +33,12 @@ const Result = (props): JSX.Element => {
     onUpload(imageData);
     // const { image };
     // const imageData = {};
+    setUploaded(true);
   };
+
+  if (uploaded) {
+    return <Redirect to={{ pathname: '/gallery/' }} />;
+  }
 
   return (
     <>

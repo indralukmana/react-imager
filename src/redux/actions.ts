@@ -23,4 +23,22 @@ const doUploadImage = imageData => ({
   payload: imageData,
 });
 
-export { doRotate, doScale, doSetImage, doSetPosition, doUploadImage };
+const doSetImages = allImagesData => ({
+  type: 'SET_IMAGES_ALL',
+  payload: allImagesData,
+});
+
+const doFetchImages = query => ({
+  type: 'IMAGES_FETCH',
+  payload: query,
+});
+
+export {
+  doRotate,
+  doScale,
+  doSetImage,
+  doSetPosition,
+  doUploadImage,
+  doSetImages,
+  doFetchImages,
+};

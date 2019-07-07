@@ -127,7 +127,6 @@ const Editor = (props): JSX.Element => {
         <Button color="secondary" type="button" onClick={() => zoom(-0.1)}>
           Zoom Out
         </Button>
-{' '}
         <Button color="warning" type="button" onClick={reset}>
           Reset
         </Button>

@@ -19,6 +19,7 @@ const initialState = {
   rotation: 0,
   scale: 1,
   position: { x: 0, y: 0 },
+  images: null,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -42,6 +43,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         image: action.payload.image,
         imageName: action.payload.imageName,
+      };
+    case 'SET_IMAGES_ALL':
+      console.log('set_images_all =>', action.payload);
+      return {
+        ...state,
+        images: action.payload,
       };
     default:
       return state;
