@@ -22,7 +22,7 @@ const Gallery = props => {
   );
 
   useEffect(() => {
-    console.log('Gallery');
+    // console.log('Gallery');
     onFetchImages();
     setAllImages(images);
   }, []);
@@ -78,7 +78,7 @@ const Gallery = props => {
   });
 
   return (
-    <div>
+    <div data-testid="galleryComponent">
       {allImages && (
         <Carousel activeIndex={activeIndex} next={next} previous={previous}>
           <CarouselIndicators

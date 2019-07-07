@@ -8,16 +8,16 @@ import Gallery from './Gallery';
 
 const App = (): JSX.Element => {
   return (
-    <div className="app">
+    <div className="app" data-testid="appComponent">
       <header className="app-header">React Imager</header>
       <Nav pills>
         <NavItem active>
-          <NavLink tag={Link} to="/">
+          <NavLink tag={Link} to="/" data-testid="editorNavLink">
             Editor
           </NavLink>
         </NavItem>
         <NavItem active>
-          <NavLink tag={Link} to="/gallery/">
+          <NavLink tag={Link} to="/gallery/" data-testid="galleryNavLink">
             Gallery
           </NavLink>
         </NavItem>

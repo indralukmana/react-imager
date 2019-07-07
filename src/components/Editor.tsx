@@ -93,7 +93,7 @@ const Editor = (props): JSX.Element => {
   }
 
   return (
-    <>
+    <div data-testid="editorComponent">
       {/* <div className="image-container"> */}
       <div
         style={{
@@ -135,7 +135,7 @@ const Editor = (props): JSX.Element => {
       <Button color="primary" type="button" onClick={process}>
         Finish
       </Button>
-    </>
+    </div>
   );
 };
 
