@@ -2,7 +2,7 @@ import { call, takeEvery, all, put } from 'redux-saga/effects';
 import { create } from 'apisauce';
 import { doSetImages } from '../redux/actions';
 
-const url = 'http://localhost:5555';
+const url = process.env.REACT_APP_ENV_URL || 'http://localhost:5555';
 const api = create({
   baseURL: url,
   headers: { Accept: '*/*' },
