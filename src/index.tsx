@@ -19,7 +19,7 @@ const initialState = {
   rotation: 0,
   scale: 1,
   position: { x: 0, y: 0 },
-  images: null,
+  images: [{ image: '', imageName: '', _id: 0, imageProps: {} }],
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
