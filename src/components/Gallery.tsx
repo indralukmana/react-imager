@@ -14,15 +14,18 @@ import { doFetchImages } from '../redux/actions';
 const Gallery = props => {
   const { onFetchImages, images } = props;
 
-  const [activeIndex, setActiveIndex] = useState<number>(
-    images ? images.length - 1 : 0,
-  );
+  const [allImages, setAllImages] = useState<any[]>([]);
   const [animating, setAnimating] = useState<boolean>(false);
+
+  const [activeIndex, setActiveIndex] = useState<number>(
+    allImages ? allImages.length - 1 : 0,
+  );
 
   useEffect(() => {
     console.log('Gallery');
     onFetchImages();
-  }, [onFetchImages]);
+    setAllImages(images);
+  }, []);
 
   const onExiting = () => {
     setAnimating(true);
@@ -34,13 +37,15 @@ const Gallery = props => {
 
   const next = () => {
     if (animating) return;
-    const nextIndex = activeIndex === images.length - 1 ? 0 : activeIndex + 1;
+    const nextIndex =
+      activeIndex === allImages.length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   };
 
   const previous = () => {
     if (animating) return;
-    const nextIndex = activeIndex === 0 ? images.length - 1 : activeIndex - 1;
+    const nextIndex =
+      activeIndex === 0 ? allImages.length - 1 : activeIndex - 1;
     setActiveIndex(nextIndex);
   };
 
@@ -53,7 +58,7 @@ const Gallery = props => {
     backgroundColor: 'gray',
   };
 
-  const slides = images.map(image => {
+  const slides = allImages.map(image => {
     return (
       <CarouselItem
         className="custom-tag"
@@ -74,10 +79,10 @@ const Gallery = props => {
 
   return (
     <div>
-      {images && (
+      {allImages && (
         <Carousel activeIndex={activeIndex} next={next} previous={previous}>
           <CarouselIndicators
-            items={images}
+            items={allImages}
             activeIndex={activeIndex}
             onClickHandler={goToIndex}
           />
