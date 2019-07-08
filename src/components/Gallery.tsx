@@ -11,10 +11,18 @@ import {
 } from 'reactstrap';
 import { doFetchImages } from '../redux/actions';
 
+interface AllImages {
+  imageName: string;
+  image: string;
+  _id: number;
+}
+
 const Gallery = props => {
   const { onFetchImages, images } = props;
 
-  const [allImages, setAllImages] = useState<any[]>([]);
+  const [allImages, setAllImages] = useState<AllImages[]>([
+    { imageName: '', image: '', _id: 0 },
+  ]);
   const [animating, setAnimating] = useState<boolean>(false);
 
   const [activeIndex, setActiveIndex] = useState<number>(
@@ -25,6 +33,7 @@ const Gallery = props => {
     // console.log('Gallery');
     onFetchImages();
     setAllImages(images);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onExiting = () => {
@@ -58,24 +67,26 @@ const Gallery = props => {
     backgroundColor: 'gray',
   };
 
-  const slides = allImages.map(image => {
-    return (
-      <CarouselItem
-        className="custom-tag"
-        tag="div"
-        // eslint-disable-next-line no-underscore-dangle
-        key={image._id}
-        onExiting={onExiting}
-        onExited={onExited}
-      >
-        <img src={image.image} alt={image.imageName} style={carouselStyle} />
-        <CarouselCaption
-          captionText={image.imageName}
-          className="text-warning"
-        />
-      </CarouselItem>
-    );
-  });
+  const slides = allImages.map(
+    (image: { image: string; imageName: string; _id: number }) => {
+      return (
+        <CarouselItem
+          className="custom-tag"
+          tag="div"
+          // eslint-disable-next-line no-underscore-dangle
+          key={image._id}
+          onExiting={onExiting}
+          onExited={onExited}
+        >
+          <img src={image.image} alt={image.imageName} style={carouselStyle} />
+          <CarouselCaption
+            captionText={image.imageName}
+            className="text-warning"
+          />
+        </CarouselItem>
+      );
+    },
+  );
 
   return (
     <div data-testid="galleryComponent">
